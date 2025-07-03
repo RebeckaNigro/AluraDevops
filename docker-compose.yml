@@ -1,0 +1,18 @@
+services:
+  # 'api' é o nome que damos ao nosso serviço. Este nome também funciona como um hostname dentro da rede do Docker.
+  api:
+    # 'build: .' instrui o Docker Compose a construir uma imagem a partir do Dockerfile encontrado no diretório atual (.).
+    build: . 
+    # 'command' sobrescreve o comando padrão (CMD) do Dockerfile. Útil para garantir que o hot-reload esteja ativo no desenvolvimento.
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload 
+    # 'volumes' sincroniza uma pasta do seu computador (host) com uma pasta dentro do contêiner.
+    # A linha '- .:/app' espelha o diretório atual para o diretório /app do contêiner, permitindo o hot-reload.
+    volumes: 
+      - .:/app 
+    # 'ports' mapeia portas entre o seu computador (host) e o contêiner.
+    # A linha '- "8000:8000"' expõe a porta 8000 do contêiner na porta 8000 do seu computador.
+    ports:
+      - "8000:8000" 
+    # 'environment' permite passar variáveis de ambiente para dentro do contêiner.
+    # A sintaxe ${APP_ENV} lê o valor da variável 'APP_ENV' de um arquivo .env no mesmo diretório.
+   
